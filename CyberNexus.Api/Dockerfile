@@ -4,10 +4,12 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
 WORKDIR /src
-COPY ["CyberNexus.Api.csproj", "."]
-RUN dotnet restore
+
+# Copy everything from the repo root into /src
 COPY . .
-RUN dotnet publish -c Release -o /app/publish --no-restore
+
+# Build and publish from the project subfolder
+RUN dotnet publish CyberNexus.Api/CyberNexus.Api.csproj -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
