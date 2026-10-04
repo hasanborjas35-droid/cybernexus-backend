@@ -8,16 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- PostgreSQL via Npgsql EF 10 preview (supports net10) -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0-preview.3" />
+    <!-- Npgsql 8 stable — compatible with net10 via TFM compatibility -->
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
 
-    <!-- ASP.NET Core / EF packages on 10.x (match the runtime) -->
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi"                  Version="10.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design"          Version="10.0.12">
+    <!-- EF Core 8.x to match Npgsql 8 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+
+    <!-- ASP.NET Core auth still uses the framework version -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi"                  Version="10.0.12" />
   </ItemGroup>
 
 </Project>
