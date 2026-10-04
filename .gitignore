@@ -1,0 +1,15 @@
+## .NET / ASP.NET Core
+obj/
+bin/
+*.user
+*.suo
+.vs/
+appsettings.Development.json
+
+## User Secrets (never commit)
+**/secrets.json
+
+## NuGet
+*.nupkg
+project.lock.json
+packages/
