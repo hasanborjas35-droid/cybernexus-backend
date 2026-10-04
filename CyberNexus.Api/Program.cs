@@ -104,9 +104,9 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        // Apply any pending migrations automatically on startup.
-        // Safe to run every boot — EF skips already-applied migrations.
-        db.Database.Migrate();
+        // Run raw SQL to create tables — bypasses EF migration machinery
+        // which has a version mismatch issue with Npgsql preview.
+        db.Database.EnsureCreated();
         CatalogSeeder.Seed(db);
         logger.LogInformation("Catalogue seeding finished.");
         PromoteConfiguredAdmins(db, builder.Configuration, logger);

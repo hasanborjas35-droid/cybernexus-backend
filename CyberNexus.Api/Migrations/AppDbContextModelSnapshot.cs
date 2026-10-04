@@ -10,8 +10,6 @@ namespace CyberNexus.Api.Migrations
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
-        }
+        protected override void BuildModel(ModelBuilder modelBuilder) { }
     }
 }
