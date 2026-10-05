@@ -14,10 +14,83 @@ public static class CatalogSeeder
 {
     public static void Seed(AppDbContext db)
     {
+        SeedLearningPaths(db);
         SeedAchievements(db);
         SeedQuizzes(db);
         SeedChallenges(db);
         db.SaveChanges();
+    }
+
+    // ── Learning Paths + Courses + Lessons ───────────────────────────────────
+    private static void SeedLearningPaths(AppDbContext db)
+    {
+        if (db.LearningPaths.Any()) return;
+
+        var path = new LearningPath
+        {
+            TitleEn = "Network Security",
+            TitleAr = "أمن الشبكات",
+            DescriptionEn = "Master the fundamentals of network security from scratch.",
+            DescriptionAr = "أتقن أساسيات أمن الشبكات من الصفر.",
+            Category = "Network",
+            Difficulty = "beginner"
+        };
+
+        var c1 = new Course
+        {
+            TitleEn = "Cybersecurity Fundamentals",
+            TitleAr = "أساسيات الأمن السيبراني",
+            DescriptionEn = "Core concepts every security professional must know.",
+            DescriptionAr = "المفاهيم الأساسية التي يجب أن يعرفها كل محترف أمني.",
+            Order = 1
+        };
+        c1.Lessons.AddRange(new[]
+        {
+            new Lesson { TitleEn="Introduction to Cybersecurity", TitleAr="مقدمة في الأمن السيبراني",
+                ContentEn="Learn what cybersecurity is and why it matters.", ContentAr="تعلم ما هو الأمن السيبراني ولماذا يهم.", Order=1, XpReward=50 },
+            new Lesson { TitleEn="CIA Triad", TitleAr="مثلث CIA",
+                ContentEn="Confidentiality, Integrity, and Availability explained.", ContentAr="شرح السرية والنزاهة والتوفر.", Order=2, XpReward=50 },
+            new Lesson { TitleEn="Types of Threats", TitleAr="أنواع التهديدات",
+                ContentEn="Malware, phishing, DDoS and more.", ContentAr="البرامج الخبيثة والتصيد وهجمات DDoS والمزيد.", Order=3, XpReward=50 },
+        });
+
+        var c2 = new Course
+        {
+            TitleEn = "Network Security Basics",
+            TitleAr = "أساسيات أمن الشبكات",
+            DescriptionEn = "Firewalls, protocols, and network defense strategies.",
+            DescriptionAr = "جدران الحماية والبروتوكولات واستراتيجيات الدفاع عن الشبكة.",
+            Order = 2
+        };
+        c2.Lessons.AddRange(new[]
+        {
+            new Lesson { TitleEn="TCP/IP Fundamentals", TitleAr="أساسيات TCP/IP",
+                ContentEn="How the internet protocols work together.", ContentAr="كيف تعمل بروتوكولات الإنترنت معاً.", Order=1, XpReward=75 },
+            new Lesson { TitleEn="Firewalls and IDS", TitleAr="جدران الحماية وأنظمة الكشف",
+                ContentEn="Protecting networks with firewalls and intrusion detection.", ContentAr="حماية الشبكات بجدران الحماية وأنظمة كشف التسلل.", Order=2, XpReward=75 },
+        });
+
+        var c3 = new Course
+        {
+            TitleEn = "Ethical Hacking",
+            TitleAr = "الاختراق الأخلاقي",
+            DescriptionEn = "Understand attacker techniques to defend better.",
+            DescriptionAr = "افهم تقنيات المهاجمين للدفاع بشكل أفضل.",
+            Order = 3
+        };
+        c3.Lessons.AddRange(new[]
+        {
+            new Lesson { TitleEn="SQL Injection", TitleAr="حقن SQL",
+                ContentEn="How SQL injection works and how to prevent it.", ContentAr="كيف يعمل حقن SQL وكيف تمنعه.", Order=1, XpReward=100 },
+            new Lesson { TitleEn="Cross-Site Scripting (XSS)", TitleAr="البرمجة النصية عبر المواقع",
+                ContentEn="Understanding and preventing XSS attacks.", ContentAr="فهم هجمات XSS والوقاية منها.", Order=2, XpReward=100 },
+            new Lesson { TitleEn="Social Engineering", TitleAr="الهندسة الاجتماعية",
+                ContentEn="Human-based attacks and how to recognize them.", ContentAr="الهجمات البشرية وكيفية التعرف عليها.", Order=3, XpReward=100 },
+        });
+
+        path.Courses.AddRange(new[] { c1, c2, c3 });
+        db.LearningPaths.Add(path);
+        db.SaveChanges(); // save here so courseId is available for quiz seeding
     }
 
     private static void SeedAchievements(AppDbContext db)
